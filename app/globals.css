@@ -1,0 +1,277 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: 'Oswald', sans-serif;
+  --font-body: 'Manrope', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Dark theme defaults */
+  --bg: #0e0e10;
+  --surface: #161618;
+  --surface-2: #212124;
+  --ink: #0a0a0b;
+  --text: #ece8e1;
+  --text-dim: #9c958b;
+  --text-faint: #6d6760;
+  --border: rgba(255,255,255,0.08);
+  --border-strong: rgba(255,255,255,0.17);
+  --accent: #c9a24b;
+  --accent-ink: #14110a;
+  --ok: #5fb98a;
+  --info: #6f9fd8;
+  --warn: #d2a24e;
+  --danger: #d96a5b;
+
+  --r-card: 16px;
+  --r-btn: 10px;
+  --r-input: 12px;
+  --r-pill: 999px;
+}
+
+[data-theme="light"] {
+  --bg: #f5f3ef;
+  --surface: #ffffff;
+  --surface-2: #ece9e3;
+  --ink: #1a1714;
+  --text: #1a1714;
+  --text-dim: #6b6560;
+  --text-faint: #9c9790;
+  --border: rgba(0,0,0,0.09);
+  --border-strong: rgba(0,0,0,0.18);
+  --accent: #c9a24b;
+  --accent-ink: #14110a;
+  --ok: #3a9268;
+  --info: #3b6ea5;
+  --warn: #b8860b;
+  --danger: #c0392b;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: color-mix(in oklab, var(--accent) 40%, transparent); }
+
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 999px;
+  border: 3px solid var(--bg);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+  cursor: pointer;
+}
+
+@keyframes fiToast {
+  from { opacity: 0; transform: translate(-50%, 16px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes fiFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fi-toast { animation: fiToast 0.3s ease; }
+.fi-fade { animation: fiFade 0.2s ease; }
+.animate-fade-in { animation: fadeIn 0.3s ease; }
+
+/* ─── Landing responsive grids ─── */
+.lp-pad      { padding: 90px 32px; }
+.lp-hero-pad { padding: 70px 32px 90px; }
+
+.grid-hero    { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
+.grid-about   { display: grid; grid-template-columns: 0.9fr  1.1fr;  gap: 64px; align-items: center; }
+.grid-contact { display: grid; grid-template-columns: 1fr 1fr;       gap: 56px; align-items: center; }
+.grid-photos  { display: grid; grid-template-columns: 1fr 1fr;       gap: 16px; }
+.grid-cards   { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+
+@media (max-width: 900px) {
+  .grid-cards { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .lp-pad      { padding: 56px 20px; }
+  .lp-hero-pad { padding: 36px 20px 56px; }
+  .grid-hero,
+  .grid-about,
+  .grid-contact { grid-template-columns: 1fr; gap: 28px; }
+  .grid-cards   { grid-template-columns: 1fr; }
+  .hero-img     { height: 260px !important; }
+  .hero-float   { display: none !important; }
+  .about-photo-offset { margin-top: 0 !important; }
+  .nav-links    { display: none !important; }
+  .nav-links.is-open {
+    display: flex !important;
+    flex-direction: column;
+    position: absolute;
+    top: 78px; left: 0; right: 0;
+    padding: 16px 24px 24px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    gap: 20px;
+    z-index: 99;
+  }
+  .nav-hamburger { display: flex !important; }
+}
+
+/* ─── Service card hover ─── */
+.service-card {
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.service-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in oklab, var(--accent) 45%, transparent) !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.45),
+              0 0 0 1px color-mix(in oklab, var(--accent) 18%, transparent);
+}
+
+/* ─── Skeleton shimmer ─── */
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface-2) 25%,
+    color-mix(in oklab, var(--surface-2) 55%, var(--surface)) 50%,
+    var(--surface-2) 75%
+  );
+  background-size: 1200px 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--r-card);
+}
+
+/* ─── Scroll reveal ─── */
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+.reveal { opacity: 0; }
+.reveal.is-visible { animation: revealUp 0.55s cubic-bezier(.22,.61,.36,1) both; }
+
+/* ─── Page transition ─── */
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-fade { animation: pageFadeIn 0.3s ease both; }
+
+/* ─── Service card image zoom ─── */
+.card-img {
+  transition: transform .4s ease !important;
+  will-change: transform;
+}
+.service-card:hover .card-img { transform: scale(1.07); }
+
+/* ─── Primary / ghost button hover micro-animation ─── */
+.btn-accent {
+  transition: transform .15s ease, box-shadow .15s ease !important;
+}
+.btn-accent:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 10px 30px color-mix(in oklab, var(--accent) 50%, transparent) !important;
+}
+.btn-ghost {
+  transition: transform .15s ease, background .15s ease !important;
+}
+.btn-ghost:hover {
+  transform: translateY(-2px) !important;
+  background: var(--surface-2) !important;
+}
+
+/* ─── Footer grid ─── */
+.grid-footer {
+  display: grid;
+  grid-template-columns: 1.3fr 0.8fr 1fr 1fr;
+  gap: 48px;
+}
+@media (max-width: 900px) {
+  .grid-footer { grid-template-columns: 1fr 1fr; gap: 36px; }
+}
+@media (max-width: 640px) {
+  .grid-footer { grid-template-columns: 1fr; gap: 32px; }
+}
+
+/* ─── WhatsApp floating button ─── */
+.wa-btn {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: #25D366;
+  color: #fff;
+  border-radius: var(--r-pill);
+  text-decoration: none;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+  transition: transform .2s ease, box-shadow .2s ease;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.wa-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(37,211,102,0.55);
+}
+.wa-label { display: inline; }
+
+/* ─── Mobile sticky CTA ─── */
+.mobile-cta-bar {
+  display: none;
+}
+@media (max-width: 640px) {
+  .mobile-cta-bar {
+    display: block;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    padding: 12px 20px 16px;
+    background: color-mix(in oklab, var(--bg) 94%, transparent);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border);
+    z-index: 85;
+  }
+  .mobile-cta-bar a {
+    display: block;
+    text-align: center;
+    padding: 14px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    border-radius: var(--r-btn);
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-size: 15px;
+    text-decoration: none;
+    box-shadow: 0 4px 20px color-mix(in oklab, var(--accent) 40%, transparent);
+  }
+  /* WA button above the sticky CTA on mobile */
+  .wa-btn { bottom: 86px; padding: 12px; border-radius: 50%; }
+  .wa-label { display: none; }
+  /* Extra bottom padding so last content isn't hidden behind CTA */
+  body { padding-bottom: 72px; }
+  /* Hamburger default must be none (overridden to flex in is-open context) */
+  .nav-hamburger { display: flex !important; }
+}
