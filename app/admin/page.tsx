@@ -40,7 +40,7 @@ async function getStats() {
 
   // Revenue stats
   const totalRevenue = (allBookingsForRevenue || []).reduce((sum, b) => {
-    const svc = b.service as { price: number } | null
+    const svc = b.service as unknown as { price: number } | null
     return sum + Number(svc?.price || 0)
   }, 0)
 

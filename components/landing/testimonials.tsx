@@ -27,7 +27,7 @@ export default async function Testimonials() {
       .limit(6)
 
     if (data && data.length > 0) {
-      reviews = (data as ReviewRow[]).map((r) => {
+      reviews = (data as unknown as ReviewRow[]).map((r) => {
         const name = r.customer?.name || 'Pelanggan'
         return {
           name,
